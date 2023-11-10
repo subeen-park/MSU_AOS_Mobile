@@ -40,7 +40,7 @@ class TableSearchTest(unittest.TestCase):
                 "platformName": "Android",
                 "appium:platformVersion": "10.0.0",
                 "appium:deviceName": "SM-G965N",
-                "appium:app": "D:\\Appium_Metamask\\Appium\\io.metamask_7.9.0.apk",
+                "appium:app": "D:\Appium_Github\MSU_AOS_Mobile\Appium\\io.metamask_7.9.0.apk",
                 "appium:udid": "21d9b36401037ece",
                 "appium:automationName" : "UIAutomator2",
                 'newCommandTimeout' : '300'
@@ -49,7 +49,7 @@ class TableSearchTest(unittest.TestCase):
     def test_addToAsset(self):
         driver = self.driver
        # driver.get("https://qa.nexpace.io/msu-market")
-        wait = WebDriverWait(driver, 20)
+        wait = WebDriverWait(driver, 300)
 
         
         
@@ -63,7 +63,7 @@ class TableSearchTest(unittest.TestCase):
 
         wait.until(EC.visibility_of_element_located((By.XPATH, '//android.widget.TextView[@text=\"비밀복구구문을 활용해 가져오기\"]')))
         driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"비밀복구구문을 활용해 가져오기\"]").click()
-        time.sleep(0.5)
+        time.sleep(1)
 
         
         driver.swipe(470, 1400, 470, 950, 100) # 스크롤 다운 (start_x, start_y, end_x, end_y, duration)
@@ -91,16 +91,16 @@ class TableSearchTest(unittest.TestCase):
         meta_login_password2.send_keys("1234qwer")
         driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"가져오기\"]").click()
 
-        time.sleep(15)
-
+        
 
 
         ###### 거래소 진입 ######
+        wait.until(EC.element_to_be_clickable((By.XPATH, '//android.widget.TextView[@text=\"괜찮습니다\"]')))
         driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"괜찮습니다\"]").click()
 
-        time.sleep(3)
+        
 
-
+        wait.until(EC.element_to_be_clickable((By.XPATH, '//android.widget.TextView[@text=\"아니요, 괜찮습니다\"]')))
         driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"아니요, 괜찮습니다\"]").click()
         time.sleep(2)
         driver.find_element(By.XPATH, "//android.view.ViewGroup[@resource-id=\"tab-bar-item-Browser\"]/android.view.ViewGroup/android.view.ViewGroup").click()
@@ -109,22 +109,18 @@ class TableSearchTest(unittest.TestCase):
 
 
 
-        #### 창용님 코드 . 여기서부터 다시 하기 touchaction 
+      
 
         driver.find_element(By.XPATH, "//android.widget.EditText").click() # URL 입력창 클릭
-        time.sleep(4)                                  
-
+        time.sleep(2)                                  
         url_input = driver.find_element(By.XPATH, value="//android.widget.EditText[@resource-id=\"url-input\"]")
         url_input.send_keys("https://qa.nexpace.io/msu-market")
         time.sleep(1)
 
-        print("test_addToAsset1 종료")
-
 
         
 
-        ## test_addToAsset2
-        print("test_addToAsset2 시작")
+        
         driver.find_element(By.XPATH, "//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout[1]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup[3]/android.view.ViewGroup[1]").click()
 
         #cmd_path = r"D:\Appium_Metamask\Appium_run.cmd"
@@ -134,7 +130,6 @@ class TableSearchTest(unittest.TestCase):
         #p.stdin.flush()
         #out, err = p.communicate()
         time.sleep(6)
-        print("test_addToAsset2 종료")
 
 
         ## test_addToAsset3
@@ -147,90 +142,160 @@ class TableSearchTest(unittest.TestCase):
         print("로그인 버튼 클릭 완료 후 continue with metamask 버튼 누르기 전.")
         
 
-        ## test_addToAsset4
-        print("test_addToAsset4 시작")
-        time.sleep(3) # continue with metamask~
-        cmd_path = r"D:\Appium_Metamask\Appium_run.cmd"
+        ### 메타마스크 연결 ###
+        time.sleep(2) # continue with metamask~
+        cmd_path = r"D:\Appium_Github\MSU_AOS_Mobile\Appium_run.cmd"
         p = subprocess.Popen(cmd_path, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) 
-        p.stdin.write(b"input keyevent 61\n")
-        p.stdin.write(b"input keyevent 66\n")
-        p.stdin.write(b'sleep 6\n')
+        p.stdin.write(b"input keyevent 61\n") #tab
+        p.stdin.write(b"input keyevent 66\n") #enter
+        p.stdin.write(b'sleep 3\n')
         p.stdin.flush()  
         out, err = p.communicate()
 
+
+        driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"연결\"]").click() # 연결
+        time.sleep(3) 
         driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"서명\"]").click() # 서명 
-        # p.stdin.write(b'sleep 1\n')
-        # #switch networks
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 66\n")
-        # p.stdin.write(b'sleep 1\n')
+        time.sleep(2)
+        driver.find_element(By.XPATH, "//android.widget.Button[@text=\"Switch network\"]").click() # 네트워크 전환
+        time.sleep(5)
 
-
-
-        # #승인
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 66\n")
-        # p.stdin.write(b'sleep 5\n')
-
-
-        # # 신규 네트워크 추가됨 - 네트워크 변경
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 66\n")
-        # p.stdin.write(b'sleep 5\n')
+        driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"승인\"]").click() # 승인
+        time.sleep(3)
+        driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"네트워크 변경\"]").click() # Switch Networks
+        time.sleep(2)
+        driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"컨펌\"]").click() # 컨펌
+        time.sleep(3)
+        print("메타마스크 연결완료")
 
 
 
 
-        # #switch networks
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 66\n")
-        # p.stdin.write(b'sleep 1\n')
-        
+
+        ### NFT 아이템 판매 진행 ###
+        cmd_path = r"D:\Appium_Github\MSU_AOS_Mobile\Appium_run.cmd"
+        p = subprocess.Popen(cmd_path, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) 
+        p.stdin.write(b"input keyevent 61\n") #tab // 메뉴 진입
+        p.stdin.write(b"input keyevent 61\n") #tab
+        p.stdin.write(b"input keyevent 61\n") #tab
+        p.stdin.write(b"input keyevent 66\n") #enter
+        p.stdin.write(b'sleep 3\n')
+
+        p.stdin.write(b"input keyevent 61\n") #tab // 인벤토리 진입
+        p.stdin.write(b"input keyevent 61\n") #tab
+        p.stdin.write(b"input keyevent 61\n") #tab
+        p.stdin.write(b"input keyevent 61\n") #tab
+        p.stdin.write(b"input keyevent 66\n") #enter
+        p.stdin.write(b'sleep 3\n')
+
+
+        p.stdin.write(b"input keyevent 61\n") #tab // NFT 아이템 상세페이지 진입
+        p.stdin.write(b"input keyevent 61\n") #tab
+        p.stdin.write(b"input keyevent 61\n") #tab
+        p.stdin.write(b"input keyevent 61\n") #tab
+        p.stdin.write(b"input keyevent 61\n") #tab
+        p.stdin.write(b"input keyevent 61\n") #tab
+        p.stdin.write(b"input keyevent 61\n") #tab
+        p.stdin.write(b"input keyevent 61\n") #tab
+        p.stdin.write(b"input keyevent 61\n") #tab
+        p.stdin.write(b"input keyevent 66\n") #enter
+        p.stdin.write(b'sleep 3\n')
+        p.stdin.write(b"input keyevent 93\n") #PageDown
+        p.stdin.write(b'sleep 1\n')
+        p.stdin.flush()  
+        out, err = p.communicate()
+
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//android.widget.Button[@text=\"Sell\"]").click() # 판매
+
+        cmd_path = r"D:\Appium_Github\MSU_AOS_Mobile\Appium_run.cmd"
+        p = subprocess.Popen(cmd_path, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        p.stdin.write(b'sleep 1\n') 
+        p.stdin.write(b"input keyevent 61\n") #tab // 가격기입
+        p.stdin.write(b"input keyevent 8\n") # 1
+        p.stdin.write(b"input keyevent 7\n") # 0
+        p.stdin.write(b"input keyevent 7\n") # 0
+        p.stdin.write(b"input keyevent 7\n") # 0
+        p.stdin.write(b"input keyevent 7\n") # 0
+        p.stdin.write(b"input keyevent 7\n") # 0
+        p.stdin.write(b"input keyevent 66\n") #enter
+        p.stdin.write(b'sleep 1\n')
+        p.stdin.flush()  
+        out, err = p.communicate()
+
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"서명\"]").click() # 서명
+        cmd_path = r"D:\Appium_Github\MSU_AOS_Mobile\Appium_run.cmd"
+        p = subprocess.Popen(cmd_path, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        p.stdin.write(b'sleep 0.5\n') 
+        p.stdin.write(b"input keyevent 111\n") #인벤토리로 돌아옴
+        p.stdin.flush()  
+        out, err = p.communicate()
+        print("NFT 아이템 판매 완료")
 
 
 
 
-        # #네트워크 변경
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 66\n")
-        # p.stdin.write(b'sleep 1\n')
+        ### 인벤토리 > 캐릭터 필터 선택 > 캐릭터 판매 ###
+
+        cmd_path = r"D:\Appium_Github\MSU_AOS_Mobile\Appium_run.cmd"
+        p = subprocess.Popen(cmd_path, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) 
+        p.stdin.write(b"input keyevent 20\n") # down
+        p.stdin.write(b"input keyevent 20\n") # down
+        p.stdin.write(b"input keyevent 20\n") # down
+        p.stdin.write(b"input keyevent 20\n") # down
+        p.stdin.write(b"input keyevent 20\n") # down
+        p.stdin.write(b"input keyevent 61\n") # tab
+        p.stdin.write(b"input keyevent 66\n") # enter
+        p.stdin.write(b"input keyevent 61\n") # tab // 필터 진입
+        p.stdin.write(b"input keyevent 61\n") # tab
+        p.stdin.write(b"input keyevent 66\n") # enter
+        p.stdin.write(b"input keyevent 20\n") # down
+        p.stdin.write(b"input keyevent 66\n") # enter
+        p.stdin.write(b"input keyevent 61\n") # tab 
+        p.stdin.write(b"input keyevent 61\n") # tab
+        p.stdin.write(b"input keyevent 61\n") # tab
+        p.stdin.write(b"input keyevent 61\n") # tab
+        p.stdin.write(b"input keyevent 66\n") # enter
+        p.stdin.write(b"input keyevent 61\n") # tab // 캐릭터 판매
+        p.stdin.write(b"input keyevent 66\n") # enter
+        p.stdin.write(b"input keyevent 93\n") #PageDown
+        p.stdin.write(b'sleep 1\n')
+        p.stdin.flush()  
+        out, err = p.communicate()
+
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//android.widget.Button[@text=\"Sell\"]").click() # 판매
+        time.sleep(1)
+
+        cmd_path = r"D:\Appium_Github\MSU_AOS_Mobile\Appium_run.cmd"
+        p = subprocess.Popen(cmd_path, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) 
+        p.stdin.write(b'sleep 1\n') 
+        p.stdin.write(b"input keyevent 61\n") #tab // 가격기입
+        p.stdin.write(b"input keyevent 8\n") # 1
+        p.stdin.write(b"input keyevent 7\n") # 0
+        p.stdin.write(b"input keyevent 7\n") # 0
+        p.stdin.write(b"input keyevent 7\n") # 0
+        p.stdin.write(b"input keyevent 7\n") # 0
+        p.stdin.write(b"input keyevent 7\n") # 0
+        p.stdin.write(b"input keyevent 66\n") #enter
+        p.stdin.write(b'sleep 1\n')
+        p.stdin.flush()  
+        out, err = p.communicate()
+
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"서명\"]").click() # 서명
+        cmd_path = r"D:\Appium_Github\MSU_AOS_Mobile\Appium_run.cmd"
+        p = subprocess.Popen(cmd_path, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        p.stdin.write(b'sleep 0.5\n') 
+        p.stdin.write(b"input keyevent 111\n") #인벤토리로 돌아옴
+        p.stdin.flush()  
+        out, err = p.communicate()
+        print("캐릭터 판매 완료")
 
 
 
 
-        # #컨펌
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 61\n")
-        # p.stdin.write(b"input keyevent 66\n")
-        # p.stdin.write(b'sleep 1\n')
-
-
-        # p.stdin.flush()
-        # out, err = p.communicate()
-
-
-
-
-        
-        # driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"네트워크 변경\"]").click() # Switch Networks
-        # time.sleep(5)
-        # driver.find_element(By.XPATH, "//android.widget.Button[@text=\"Switch network\"]").click() # 네트워크 전환
-        # time.sleep(1)
-        # driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"네트워크 변경\"]").click() # Switch Networks
-        # time.sleep(2)
-        # driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"컨펌\"]").click() # 컨펌
-
-
-        # time.sleep(1000)
 
 
 
