@@ -47,7 +47,7 @@ class TableSearchTest(unittest.TestCase):
 
     def test_addToAsset(self):
         driver = self.driver
-       # driver.get("https://qa.nexpace.io/msu-market")
+       # driver.get("#####")
         wait = WebDriverWait(driver, 3000)
 
         
@@ -80,13 +80,13 @@ class TableSearchTest(unittest.TestCase):
         ####### 메타 마스크 비밀번호 설정 과정 #######
         # 비밀번호 복구 구문 입력, 
         meta_login_seed = driver.find_element(By.XPATH, "//android.widget.EditText[@resource-id=\"import-from-seed-screen-seed-phrase-input-id\"]")
-        meta_login_seed.send_keys("dove fetch photo mouse brain way rookie actress undo kiss cat differ")
+        meta_login_seed.send_keys("######")
         #비밀번호
         meta_login_password = driver.find_element(By.XPATH, "//android.widget.EditText[@resource-id=\"create-password-first-input-field\"]")
-        meta_login_password.send_keys("1234qwer")
+        meta_login_password.send_keys("####")
         #컨펌
         meta_login_password2 = driver.find_element(By.XPATH, value="//android.widget.EditText[@resource-id=\"create-password-second-input-field\"]")
-        meta_login_password2.send_keys("1234qwer")
+        meta_login_password2.send_keys("####")
         driver.find_element(By.XPATH, "//android.widget.TextView[@text=\"가져오기\"]").click()
         
 
